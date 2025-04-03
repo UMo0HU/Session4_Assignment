@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "Category Details";
+	var category = ViewData["Category"] as Category;
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">@category.Name</h5>
+        <p class="card-text">@category.Description</p>
+    </div>
+</div>
+
+

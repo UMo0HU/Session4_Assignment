@@ -1,0 +1,26 @@
+﻿@using Assignment_2.ViewModels;
+@{
+    ViewData["Title"] = "order";
+	@model OrderOderItemProductViewModel;
+}
+
+<div class="container">
+	<h1>@ViewData["Title"]</h1>
+	<table class="table table-dark">
+		<tr>
+			<th scope="col">Order Id</th>
+			<th scope="col">Product Name</th>
+			<th scope="col">Quantity</th>
+			<th scope="col">Price</th>
+		</tr>
+		@foreach (var orderItem in Model.orderItems)
+		{
+			<tr>
+				<td scope="row">@orderItem.OrderId</td>
+				<td scope="row">@orderItem.Product.Name</td>
+				<td scope="row">@orderItem.Quantity</td>
+				<td scope="row">@orderItem.Price</td>
+			</tr>
+		}
+	</table>
+</div>

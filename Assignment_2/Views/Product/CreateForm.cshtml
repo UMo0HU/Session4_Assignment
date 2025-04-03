@@ -1,0 +1,35 @@
+﻿@using Assignment_2.Models;
+@model Product;
+@{
+    ViewData["Title"] = "Create Product";
+	SelectList categoryList = new SelectList(ViewBag.Categories, "Id", "Name");
+}
+
+<form method="post" asp-controller="Product" asp-action="CreateProduct" enctype="multipart/form-data">
+	<div class="form-group">
+		<label asp-for="Name"></label>
+		<input type="text" class="form-control" asp-for="Name" placeholder="Enter name">
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Price"></label>
+		<input type="number" class="form-control" asp-for="Price" placeholder="Enter price">
+		<span asp-validation-for="Price" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Description"></label>
+		<textarea class="form-control" asp-for="Description" placeholder="Enter description"></textarea>
+		<span asp-validation-for="Description" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(Model => Model.CategoryId)
+		@Html.DropDownListFor(Model => Model.CategoryId, categoryList, "Select Category", new { @class = "form form-control" })
+		<span asp-validation-for="CategoryId" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="ClientFile"></label>
+		<input type="file" class="form-control" asp-for="ClientFile">
+		<span asp-validation-for="ClientFile" class="text-danger"></span>
+	</div>
+	<input type="submit" class="btn btn-primary" value="Add Product">
+</form>

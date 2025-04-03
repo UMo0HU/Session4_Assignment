@@ -1,0 +1,78 @@
+﻿@model Order
+@{
+	ViewData["Title"] = "Edit Order";
+	var customers = ViewData["Customers"] as List<Customer>;
+	var products = ViewData["Products"] as List<Product>;
+	var orderItems = ViewData["OrderItems"] as List<OrderItem>;
+	decimal productPrice = 0;
+}
+
+<form asp-controller="Order" asp-action="EditOrder" asp-route-id="@Model.Id" method="post">
+	<div asp-validation-summary="All" class="text-danger">
+	</div>
+	<div class="form-group">
+		<label for="Cust-Name">Customer Name</label>
+		@foreach (var customer in customers)
+		{
+			if (Model.CustomerId == customer.Id)
+			{
+				<input type="text" id="Cust-Name" name="Order.CustomerId" class="form-control" value="@customer.Name" readonly />
+			}
+		}
+	</div>
+	@foreach(var orderItem in orderItems)
+	{
+		var index = orderItems.IndexOf(orderItem);
+		<div class="form-group border border-danger p-3 m-3">
+			<input type="hidden" name="orderItems[@index].Id" value="@orderItem.Id" />
+			<div id="Product-Name" class="d-grid gap-1 col-3 mx-auto my-2 text-center">
+				@foreach (var product in products)
+				{
+					if (orderItem.ProductId == product.Id)
+					{
+						<input type="text" name="orderItems[@index].ProductId" value="@orderItem.ProductId" hidden />
+						<label for="Product-Name">Product Name</label>
+						<p class="form form-control border border-success">@product.Name</p>
+						<img class="img-fluid" src="/images/@product.Img" />
+						productPrice = (decimal)product.Price * orderItem.Quantity;
+					}
+				}
+			</div>
+			<label for="Price">Price</label>
+			<input type="text" id="Price" class="form-control" value="@productPrice" readonly />
+			<label for="Quantity">Quantity</label>
+			<input type="text" id="Quantity" name="orderItems[@index].Quantity" class="form-control" value="@orderItem.Quantity" readonly />
+			<div class="d-grid gap-1 col-3 mx-auto my-1">
+				<button class="btn btn-outline-success p-2" id="incBtn" onclick="incrementQuantity(this)" type="button"><h4>+</h4></button>
+				<button class="btn btn-outline-danger p-2" id="decBtn" onclick="decrementQuantity(this)" type="button"><h4>-</h4></button>
+			</div>
+		</div>
+	}
+	<div class="btn-group" id="btn-group-element">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+
+<script>
+	function incrementQuantity(button) {
+		let quantityInput = button.parentElement.parentElement.querySelector("#Quantity");
+		let priceOutput = button.parentElement.parentElement.querySelector("#Price");
+		let productPrice = parseFloat(priceOutput.value) / parseInt(quantityInput.value);
+
+		if(parseInt(quantityInput.value) < 10) {
+			quantityInput.value = parseInt(quantityInput.value) + 1;
+			priceOutput.value = (parseInt(quantityInput.value) * productPrice).toFixed(2);
+		}
+	}
+
+	function decrementQuantity(button) {
+		let quantityInput = button.parentElement.parentElement.querySelector("#Quantity");
+		let priceOutput = button.parentElement.parentElement.querySelector("#Price");
+		let productPrice = parseFloat(priceOutput.value) / parseInt(quantityInput.value);
+
+		if (parseInt(quantityInput.value) > 1) {
+			quantityInput.value = parseInt(quantityInput.value) - 1;
+			priceOutput.value = (parseInt(quantityInput.value) * productPrice).toFixed(2);
+		}
+	}
+</script>

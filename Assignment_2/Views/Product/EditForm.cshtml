@@ -1,0 +1,37 @@
+﻿@model Product;
+@{
+    ViewData["Title"] = "Edit Product";
+	var categories = ViewBag.Categories as List<Category>;
+	SelectList cateogryList = new SelectList(ViewBag.Categories, "Id", "Name", Model.CategoryId);
+}
+
+
+<form method="post" asp-controller="Product" asp-action="EditProduct" asp-route-id="@Model.Id" enctype="multipart/form-data">
+	<div class="form-group">
+		<label asp-for="Name"></label>
+		<input type="text" class="form-control" asp-for="Name" placeholder="Enter name">
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Price"></label>
+		<input type="number" class="form-control" asp-for="Price" placeholder="Enter price">
+		<span asp-validation-for="Price" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Description"></label>
+		<textarea class="form-control" asp-for="Description" placeholder="Enter description"></textarea>
+		<span asp-validation-for="Description" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="CategoryId"></label>
+		<select asp-items="cateogryList" asp-for="CategoryId" class="form form-control">
+		</select>
+		<span asp-validation-for="CategoryId" class="text-danger"></span>
+	</div>
+	<div>
+		<label asp-for="ClientFile"></label>
+		<input type="file" class="form-control" asp-for="ClientFile">
+		<span asp-validation-for="ClientFile" class="text-danger"></span>
+	</div>
+	<input type="submit" class="btn btn-primary" value="Save">
+</form>

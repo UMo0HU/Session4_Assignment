@@ -1,0 +1,38 @@
+﻿@using Assignment_2.ViewModels;
+@{
+    ViewData["Title"] = "Orders";
+	@model OrdersCustomersViewModel;
+}
+
+<h1>@ViewData["Title"]</h1>
+<table class="table table-dark">
+	<tr>
+		<th scope="col">#</th>
+		<th scope="col">CustomerId</th>
+		<th scope="col">OrderDate</th>
+		<th scope="col">TotalAmout</th>
+		<th scope="col">Edit</th>
+		<th scope="col">Delete</th>
+		<th scope="col">Order Details</th>
+	</tr>
+	@foreach (var order in Model.orders)
+	{
+		<tr>
+			<td scope="row">@order.Id</td>
+			@foreach(var customer in Model.customers) {
+				if (order.CustomerId == customer.Id)
+				{
+					<td scope="row">@customer.Name</td>
+				}
+			}
+			<td scope="row">@order.OrderDate</td>
+			<td scope="row">@order.TotalAmount</td>
+			<td scope="row"><a asp-controller="Order" asp-action="EditForm" asp-route-id="@order.Id" class="btn btn-warning">Edit</a></td>
+			<td scope="row"><a asp-controller="Order" asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger">Delete</a></td>
+			<td scope="row"><a asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class="btn btn-success">Show Details</a></td>
+		</tr>
+	}
+	<tr>
+		<td scope="row" colspan="7" class="text-center"><a asp-controller="Order" asp-action="CreateForm" class="btn btn-primary w-50 m-auto">Create</a></td>
+	</tr>
+</table>

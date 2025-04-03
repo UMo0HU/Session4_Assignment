@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Product Details";
+	var product = ViewData["Product"] as Product;
+}
+
+
+<h1>@ViewData["Title"]</h1>
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="/images/@product.Img" width="200" height="200" alt="@product.Img">
+    <div class="card-body">
+        <h5 class="card-title">@product.Name</h5>
+        <p class="card-text">@product.Description</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">@product.CategoryId</li>
+    </ul>
+</div>
+
+
+
